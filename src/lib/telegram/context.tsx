@@ -15,12 +15,18 @@ const TelegramContext = createContext<TelegramEnvironment>(initialState);
 
 export function TelegramProvider({ children }: { children: React.ReactNode }) {
   const [environment, setEnvironment] = useState(initialState);
+
   useEffect(() => {
-    const next = readTelegramEnvironment();
     window.Telegram?.WebApp?.ready?.();
     window.Telegram?.WebApp?.expand?.();
-    setEnvironment(next);
+
+    const frame = window.requestAnimationFrame(() => {
+      setEnvironment(readTelegramEnvironment());
+    });
+
+    return () => window.cancelAnimationFrame(frame);
   }, []);
+
   return <TelegramContext.Provider value={environment}>{children}</TelegramContext.Provider>;
 }
 
