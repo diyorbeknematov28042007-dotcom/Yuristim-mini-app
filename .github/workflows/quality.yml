@@ -31,3 +31,32 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Install visual QA driver
+        if: github.ref == 'refs/heads/miniapp-dev'
+        run: npm install --no-save --package-lock=false playwright-core
+
+      - name: Start production server
+        if: github.ref == 'refs/heads/miniapp-dev'
+        run: |
+          npm run start > /tmp/yuristim-next.log 2>&1 &
+          echo $! > /tmp/yuristim-next.pid
+          for i in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:3000 >/dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/yuristim-next.log
+          exit 1
+
+      - name: Visual QA 320 390 430
+        if: github.ref == 'refs/heads/miniapp-dev'
+        run: node .github/scripts/visual-qa.mjs
+
+      - name: Upload visual QA screenshots
+        if: always() && github.ref == 'refs/heads/miniapp-dev'
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase1-visual-qa
+          path: visual-qa
+          if-no-files-found: ignore
+          retention-days: 7
