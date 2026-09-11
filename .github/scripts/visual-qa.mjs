@@ -52,7 +52,7 @@ for (const width of viewports) {
 
   await page.getByRole("textbox", { name: "Maxsus raqam", exact: true }).fill("123456789");
   await page.getByRole("button", { name: "Davom etish", exact: true }).click();
-  await page.getByLabel("Menu", { exact: true }).waitFor({ state: "visible" });
+  await page.getByRole("button", { name: "Menu", exact: true }).waitFor({ state: "visible" });
   await page.getByRole("tab", { name: "Chat", exact: true }).waitFor({ state: "visible" });
   await page.getByRole("tab", { name: "Hujjat", exact: true }).waitFor({ state: "visible" });
   await page.getByRole("button", { name: "Tezkor", exact: true }).waitFor({ state: "visible" });
@@ -67,19 +67,19 @@ for (const width of viewports) {
   await page.getByText("Savolingiz bormi?", { exact: true }).waitFor({ state: "visible" });
 
   if (width === 390) {
-    await page.getByLabel("Menu", { exact: true }).click();
+    await page.getByRole("button", { name: "Menu", exact: true }).click();
     await page.getByText("Chatlar tarixi", { exact: true }).waitFor({ state: "visible" });
     await page.getByRole("button", { name: "Yangi chat", exact: true }).waitFor({ state: "visible" });
     await assertNoHorizontalOverflow(page, "390px drawer");
     await page.screenshot({ path: path.join(outputDir, "390-drawer.png"), fullPage: true });
-    await page.getByLabel("Yopish", { exact: true }).click();
+    await page.getByRole("button", { name: "Yopish", exact: true }).click();
 
     await page.getByRole("button", { name: "Tezkor", exact: true }).click();
     await page.getByText("Javob rejimi", { exact: true }).waitFor({ state: "visible" });
     await page.screenshot({ path: path.join(outputDir, "390-model-sheet.png"), fullPage: true });
     await page.getByLabel("Close sheet", { exact: true }).click();
 
-    await page.getByLabel("Biriktirish", { exact: true }).click();
+    await page.getByRole("button", { name: "Biriktirish", exact: true }).click();
     await page.getByText("Fayl yuklash", { exact: true }).waitFor({ state: "visible" });
     await page.screenshot({ path: path.join(outputDir, "390-attachment-sheet.png"), fullPage: true });
     await page.getByLabel("Close sheet", { exact: true }).click();
