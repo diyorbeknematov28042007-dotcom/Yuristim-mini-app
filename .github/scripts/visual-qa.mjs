@@ -38,8 +38,7 @@ async function assertNoHorizontalOverflow(page, label) {
 }
 
 async function closeVisibleSheet(page) {
-  const dialog = page.locator('[role="dialog"]:visible');
-  await dialog.getByRole("button", { name: "Close sheet", exact: true }).click();
+  await page.getByRole("button", { name: "Close", exact: true }).click({ position: { x: 8, y: 8 } });
   await page.waitForTimeout(motionSettleMs);
 }
 
@@ -79,20 +78,20 @@ for (const width of viewports) {
     await page.getByRole("button", { name: "Yangi chat", exact: true }).waitFor({ state: "visible" });
     await page.waitForTimeout(motionSettleMs);
     await assertNoHorizontalOverflow(page, "390px drawer");
-    await page.screenshot({ path: path.join(outputDir, "390-drawer.png"), fullPage: true });
+    await page.screenshot({ path: path.join(outputDir, "390-drawer.png") });
     await page.getByRole("button", { name: "Yopish", exact: true }).click();
     await page.waitForTimeout(motionSettleMs);
 
     await page.getByRole("button", { name: "Tezkor", exact: true }).click();
     await page.getByText("Javob rejimi", { exact: true }).waitFor({ state: "visible" });
     await page.waitForTimeout(motionSettleMs);
-    await page.screenshot({ path: path.join(outputDir, "390-model-sheet.png"), fullPage: true });
+    await page.screenshot({ path: path.join(outputDir, "390-model-sheet.png") });
     await closeVisibleSheet(page);
 
     await page.getByRole("button", { name: "Biriktirish", exact: true }).click();
     await page.getByText("Fayl yuklash", { exact: true }).waitFor({ state: "visible" });
     await page.waitForTimeout(motionSettleMs);
-    await page.screenshot({ path: path.join(outputDir, "390-attachment-sheet.png"), fullPage: true });
+    await page.screenshot({ path: path.join(outputDir, "390-attachment-sheet.png") });
     await closeVisibleSheet(page);
   }
 
