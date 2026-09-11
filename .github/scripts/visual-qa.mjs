@@ -50,39 +50,39 @@ for (const width of viewports) {
   const authMetrics = await assertNoHorizontalOverflow(page, `${width}px auth`);
   await page.screenshot({ path: path.join(outputDir, `${width}-auth.png`), fullPage: true });
 
-  await page.getByLabel("Maxsus raqam").fill("123456789");
-  await page.getByRole("button", { name: "Davom etish" }).click();
-  await page.getByLabel("Menu").waitFor({ state: "visible" });
-  await page.getByRole("tab", { name: "Chat" }).waitFor({ state: "visible" });
-  await page.getByRole("tab", { name: "Hujjat" }).waitFor({ state: "visible" });
-  await page.getByRole("button", { name: /Tezkor/ }).waitFor({ state: "visible" });
-  await page.getByPlaceholder("Savolingizni yozing...").waitFor({ state: "visible" });
+  await page.getByRole("textbox", { name: "Maxsus raqam", exact: true }).fill("123456789");
+  await page.getByRole("button", { name: "Davom etish", exact: true }).click();
+  await page.getByLabel("Menu", { exact: true }).waitFor({ state: "visible" });
+  await page.getByRole("tab", { name: "Chat", exact: true }).waitFor({ state: "visible" });
+  await page.getByRole("tab", { name: "Hujjat", exact: true }).waitFor({ state: "visible" });
+  await page.getByRole("button", { name: "Tezkor", exact: true }).waitFor({ state: "visible" });
+  await page.getByPlaceholder("Savolingizni yozing...", { exact: true }).waitFor({ state: "visible" });
 
   const shellMetrics = await assertNoHorizontalOverflow(page, `${width}px shell`);
   await page.screenshot({ path: path.join(outputDir, `${width}-shell.png`), fullPage: true });
 
-  await page.getByRole("tab", { name: "Hujjat" }).click();
-  await page.getByText("Hujjat bilan ishlash").waitFor({ state: "visible" });
-  await page.getByRole("tab", { name: "Chat" }).click();
-  await page.getByText("Savolingiz bormi?").waitFor({ state: "visible" });
+  await page.getByRole("tab", { name: "Hujjat", exact: true }).click();
+  await page.getByText("Hujjat bilan ishlash", { exact: true }).waitFor({ state: "visible" });
+  await page.getByRole("tab", { name: "Chat", exact: true }).click();
+  await page.getByText("Savolingiz bormi?", { exact: true }).waitFor({ state: "visible" });
 
   if (width === 390) {
-    await page.getByLabel("Menu").click();
-    await page.getByText("Chatlar tarixi").waitFor({ state: "visible" });
-    await page.getByRole("button", { name: "Yangi chat" }).waitFor({ state: "visible" });
+    await page.getByLabel("Menu", { exact: true }).click();
+    await page.getByText("Chatlar tarixi", { exact: true }).waitFor({ state: "visible" });
+    await page.getByRole("button", { name: "Yangi chat", exact: true }).waitFor({ state: "visible" });
     await assertNoHorizontalOverflow(page, "390px drawer");
     await page.screenshot({ path: path.join(outputDir, "390-drawer.png"), fullPage: true });
-    await page.getByLabel("Yopish").click();
+    await page.getByLabel("Yopish", { exact: true }).click();
 
-    await page.getByRole("button", { name: /Tezkor/ }).click();
-    await page.getByText("Javob rejimi").waitFor({ state: "visible" });
+    await page.getByRole("button", { name: "Tezkor", exact: true }).click();
+    await page.getByText("Javob rejimi", { exact: true }).waitFor({ state: "visible" });
     await page.screenshot({ path: path.join(outputDir, "390-model-sheet.png"), fullPage: true });
-    await page.getByLabel("Close sheet").click();
+    await page.getByLabel("Close sheet", { exact: true }).click();
 
-    await page.getByLabel("Biriktirish").click();
-    await page.getByText("Fayl yuklash").waitFor({ state: "visible" });
+    await page.getByLabel("Biriktirish", { exact: true }).click();
+    await page.getByText("Fayl yuklash", { exact: true }).waitFor({ state: "visible" });
     await page.screenshot({ path: path.join(outputDir, "390-attachment-sheet.png"), fullPage: true });
-    await page.getByLabel("Close sheet").click();
+    await page.getByLabel("Close sheet", { exact: true }).click();
   }
 
   report.push({ width, authMetrics, shellMetrics, status: "pass" });
