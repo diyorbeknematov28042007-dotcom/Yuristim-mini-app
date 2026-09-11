@@ -1,0 +1,1 @@
+export function UsageBadge({ value }: { value: number }) { return <span className="rounded-full bg-mint-soft px-2 py-1 text-[11px] font-semibold tabular-nums text-yuristim-dark">{value.toFixed(1)} kredit</span>; }

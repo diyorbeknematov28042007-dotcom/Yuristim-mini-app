@@ -1,3 +1,5 @@
-import type { ButtonHTMLAttributes } from "react";
+import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "@/lib/utils/cn";
-export function IconButton({ className, ...props }: ButtonHTMLAttributes<HTMLButtonElement>) { return <button className={cn("inline-flex size-11 items-center justify-center rounded-[14px] border border-border bg-white text-ink transition-colors hover:bg-mint-soft", className)} {...props} />; }
+export function IconButton({ children, className, type = "button", ...props }: ButtonHTMLAttributes<HTMLButtonElement> & { children: ReactNode }) {
+  return <button type={type} className={cn("inline-flex size-11 shrink-0 items-center justify-center rounded-full text-ink transition-colors duration-150 hover:bg-neutral-100 active:bg-neutral-200 disabled:pointer-events-none disabled:opacity-45", className)} {...props}>{children}</button>;
+}

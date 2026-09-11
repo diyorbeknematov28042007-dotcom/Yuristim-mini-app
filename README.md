@@ -1,47 +1,87 @@
 # Yuristim Mini App
 
-Yuristim LegalTech mahsuloti uchun Telegram Mini App frontend foundation.
+Standalone frontend repository for the Yuristim LegalTech Telegram Mini App.
 
 ## Phase 1 scope
 
-Bu repository hozircha **frontend-only**. Production backend integration mavjud emas.
+Phase 1 establishes **Foundation + Core Shell** only. The product is intentionally chat-first: after frontend-only access verification, the user lands directly in a compact legal assistant workspace with a `Chat | Hujjat` mode switch, plain-text model selector, drawer navigation, chat history and a mobile composer.
 
-Phase 1 quyidagilarni beradi:
-
-- Next.js App Router + TypeScript;
-- Tailwind CSS mobile-first design system;
-- Yuristim brand tokenlari (`#00875A`, `#006B4F`, mint surfaces);
-- Telegram Mini App frontend abstraction va browser fallback;
-- Uzbek / Russian / English i18n foundation;
-- global app shell va bottom navigation;
-- reusable UI components;
-- Home, AI, Lawyers, Documents va Profile foundation sahifalari;
-- typed mock service contracts;
-- Vercel-compatible project configuration;
-- GitHub Actions orqali lint, typecheck va build quality gate.
-
-## Explicit non-goals
-
-Phase 1 quyidagilarni o‘z ichiga olmaydi: backend yoki route-handler business API, Supabase integration, real Telegram auth validation, JWT/session backend, payment backend, real AI model/API integration va production marketplace logic.
+There is no dashboard-first home screen and no five-item bottom navigation.
 
 ## Stack
 
-- Next.js 16
+- Next.js 16 App Router
 - React 19
-- TypeScript
+- TypeScript strict mode
 - Tailwind CSS 4
-- Lucide React
+- Lucide vector icons
+- React context/hooks for lightweight frontend state
 
-## Development
+## Design direction
+
+The UI combines ChatGPT-like interaction simplicity with HIKMA-inspired whitespace, restrained emerald accents and Yuristim's LegalTech trust requirements.
+
+Brand colors:
+- `#00875A` — primary green
+- `#006B4F` — dark green
+- `#DFF7EC` — soft mint
+- `#F3FFF9` — light mint
+- `#111827` — main text
+- `#FFFFFF` — primary surface
+
+Design tokens are centralized in CSS variables and `src/lib/constants/design-tokens.ts`.
+
+## Architecture
+
+```text
+src/
+  app/                  # App Router screens
+  components/
+    auth/               # access-code UX
+    chat/               # chat/document workspace and composer
+    layout/             # global shell
+    navigation/         # top bar, drawer, history, model/mode selectors
+    ui/                 # reusable primitives
+  features/app-state/   # lightweight frontend state
+  lib/
+    constants/          # brand/product constants
+    i18n/               # uz/ru/en dictionary foundation
+    telegram/           # Telegram/browser frontend abstraction
+  mocks/                # mock data only
+  services/             # service contracts + mock implementations
+  types/                # shared domain types
+```
+
+UI components do not import mock data directly. They consume state or typed service abstractions, so a future integration agent can replace the mock service implementations with real Yuristim API clients without rewriting the UI layer.
+
+## Access flow
+
+There is no intro/welcome marketing screen. The first screen asks for the special number issued by the Yuristim Telegram bot. This number is explicitly described as **not a Telegram ID**.
+
+Phase 1 uses a frontend-only demo verification code:
+
+```text
+123 456 789
+```
+
+The Telegram bot URL is centralized through `NEXT_PUBLIC_YURISTIM_BOT_URL` with a frontend fallback constant.
+
+## Telegram Mini App foundation
+
+The repository includes frontend abstractions for Telegram environment detection, browser fallback, `ready()` / `expand()` initialization, BackButton handling, haptic feedback, safe-area CSS and a mock Telegram user context. Real Telegram `initData` server validation is intentionally not implemented.
+
+## Internationalization
+
+The dictionary architecture supports Uzbek (`uz`, default), Russian (`ru`) and English (`en`). Core Phase 1 visible copy is dictionary-driven and key parity is enforced by TypeScript.
+
+## Run locally
 
 ```bash
 npm install
 npm run dev
 ```
 
-Local URL: `http://localhost:3000`
-
-## Validation
+Quality gates:
 
 ```bash
 npm run lint
@@ -49,41 +89,14 @@ npm run typecheck
 npm run build
 ```
 
-## Structure
-
-```text
-src/
-  app/
-  components/
-    layout/
-    navigation/
-    providers/
-    ui/
-  hooks/
-  lib/
-    constants/
-    i18n/
-    telegram/
-    utils/
-  mocks/
-  services/
-  types/
-```
-
-## Telegram Mini App foundation
-
-Frontend layer `window.Telegram.WebApp` mavjudligini aniqlaydi, `ready()` / `expand()` ni chaqiradi, browser uchun mock fallback user beradi hamda haptic feedback va BackButton abstractionlarini o‘z ichiga oladi.
-
-**Important:** Telegram `initData` bu repositoryda validatsiya qilinmaydi. Secure validation keyinchalik mavjud Yuristim backendida bajariladi.
-
-## i18n
-
-Default language: `uz`. Supported: `uz`, `ru`, `en`.
-
 ## Vercel
 
-Bu standart Next.js loyiha. Vercel'da repository root project root sifatida ishlaydi. Phase 1 uchun production environment variable talab qilinmaydi.
+The project is a root-level Next.js app and includes `vercel.json`, so it can be imported directly into Vercel. No server environment variables are required for Phase 1. `NEXT_PUBLIC_YURISTIM_BOT_URL` is optional.
 
-## Future integration
+## Intentional non-goals
 
-Service layer data source'lardan ajratilgan. Keyinchalik mock implementationlar mavjud Yuristim API clientlari bilan almashtiriladi; business logic brauzerga ko‘chirilmaydi.
+Production backend, Telegram authentication validation, Yuristim APIs, Supabase, payments and AI provider integrations are intentionally not implemented in this repository yet.
+
+Also out of scope in Phase 1: real AI conversations or streaming, real file upload/processing, document generation/analysis, marketplace and lawyer search, real credit ledger, real payments and production authentication.
+
+This standalone frontend is intended to be integrated into the main Yuristim repository later by a separate integration agent.

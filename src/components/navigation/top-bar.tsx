@@ -1,0 +1,3 @@
+"use client";
+import { Menu } from "lucide-react"; import { useMiniApp } from "@/features/app-state/context"; import { IconButton } from "@/components/ui/icon-button"; import { ModeSwitch } from "./mode-switch"; import { ModelSelector } from "./model-selector";
+export function TopBar() { const { openDrawer } = useMiniApp(); return <header className="app-safe-top sticky top-0 z-30 border-b border-neutral-100 bg-white/96 backdrop-blur-sm"><div className="app-content-width grid min-h-[var(--topbar-height)] grid-cols-[44px_minmax(0,1fr)_92px] items-center px-2 sm:px-4"><IconButton aria-label="Menu" onClick={openDrawer}><Menu size={21} strokeWidth={1.9} /></IconButton><ModeSwitch /><ModelSelector /></div></header>; }
