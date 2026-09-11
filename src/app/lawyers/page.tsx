@@ -1,0 +1,9 @@
+"use client";
+import { BadgeCheck, MapPin, Star } from "lucide-react";
+import { AppHeader } from "@/components/layout/app-header";
+import { Card } from "@/components/ui/card";
+import { PageContainer } from "@/components/ui/page-container";
+import { SearchInput } from "@/components/ui/input";
+import { useI18n } from "@/lib/i18n/context";
+import { mockLawyers } from "@/mocks/lawyers";
+export default function LawyersPage() { const { t } = useI18n(); return <><AppHeader title={t("lawyers.title")} /><PageContainer className="space-y-5 pt-4"><section><h1 className="text-[26px] font-black tracking-[-0.04em] text-ink">{t("lawyers.title")}</h1><p className="mt-2 text-sm leading-6 text-muted">{t("lawyers.subtitle")}</p></section><SearchInput placeholder={t("lawyers.search")} aria-label={t("lawyers.search")} /><section className="space-y-3">{mockLawyers.map((lawyer) => <Card key={lawyer.id} className="flex items-center gap-3 shadow-none"><div className="flex size-12 shrink-0 items-center justify-center rounded-[16px] bg-mint text-sm font-black text-yuristim-dark">{lawyer.name.split(" ").map((part) => part[0]).join("").slice(0, 2)}</div><div className="min-w-0 flex-1"><div className="flex items-center gap-1.5"><h2 className="truncate text-sm font-bold text-ink">{lawyer.name}</h2>{lawyer.verified ? <BadgeCheck className="size-4 shrink-0 text-yuristim" aria-label="Verified" /> : null}</div><p className="mt-0.5 truncate text-xs text-muted">{lawyer.specialty}</p><div className="mt-2 flex items-center gap-3 text-[11px] font-medium text-muted"><span className="flex items-center gap-1"><Star className="size-3 fill-current text-[#B7791F]" />{lawyer.rating}</span><span className="flex items-center gap-1"><MapPin className="size-3" />Toshkent</span></div></div></Card>)}</section></PageContainer></>; }

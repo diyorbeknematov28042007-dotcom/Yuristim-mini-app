@@ -1,0 +1,10 @@
+import { mockLawyers } from "@/mocks/lawyers";
+import { mockUser } from "@/mocks/user";
+import type { AiService, CreditsService, DocumentService, LawyerService, MarketplaceService, NotificationService, UserService } from "./contracts";
+export const userService: UserService = { async getCurrent() { return mockUser; } };
+export const creditsService: CreditsService = { async getBalance() { return mockUser.credits; } };
+export const aiService: AiService = { async getAvailability() { return { enabled: false }; } };
+export const lawyerService: LawyerService = { async list() { return mockLawyers; } };
+export const documentService: DocumentService = { async list() { return []; } };
+export const marketplaceService: MarketplaceService = { async getActiveRequestCount() { return 0; } };
+export const notificationService: NotificationService = { async getUnreadCount() { return 0; } };

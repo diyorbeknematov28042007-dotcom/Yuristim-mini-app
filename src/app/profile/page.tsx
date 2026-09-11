@@ -1,0 +1,11 @@
+"use client";
+import { Bell, CircleHelp, Globe2, LockKeyhole, ShieldCheck, UserRound } from "lucide-react";
+import { AppHeader } from "@/components/layout/app-header";
+import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { ListItem } from "@/components/ui/list-item";
+import { PageContainer } from "@/components/ui/page-container";
+import { useI18n } from "@/lib/i18n/context";
+import type { Language } from "@/lib/i18n/dictionaries";
+const languageLabels: Record<Language, string> = { uz: "UZ", ru: "RU", en: "EN" };
+export default function ProfilePage() { const { t, language, setLanguage } = useI18n(); function cycleLanguage() { const next: Record<Language, Language> = { uz: "ru", ru: "en", en: "uz" }; setLanguage(next[language]); } return <><AppHeader title={t("profile.title")} /><PageContainer className="space-y-5 pt-4"><section><h1 className="text-[26px] font-black tracking-[-0.04em] text-ink">{t("profile.title")}</h1><p className="mt-2 text-sm leading-6 text-muted">{t("profile.subtitle")}</p></section><Card className="flex items-center gap-4"><div className="flex size-14 shrink-0 items-center justify-center rounded-[18px] bg-yuristim text-white"><UserRound className="size-6" /></div><div className="min-w-0 flex-1"><div className="flex items-center gap-2"><h2 className="truncate text-base font-bold">Diyorbek</h2><Badge>Demo</Badge></div><p className="mt-1 truncate text-xs text-muted">@yuristim_demo · 62 kredit</p></div></Card><Card className="py-1 shadow-none"><button className="block w-full text-left" onClick={cycleLanguage} aria-label="Change language"><ListItem icon={Globe2} title={t("profile.language")} trailing={<span className="rounded-full bg-mint px-2.5 py-1 text-xs font-bold text-yuristim-dark">{languageLabels[language]}</span>} /></button><ListItem icon={Bell} title={t("profile.notifications")} /><ListItem icon={LockKeyhole} title={t("profile.security")} /><ListItem icon={CircleHelp} title={t("profile.help")} /></Card><div className="flex items-start gap-3 rounded-[16px] bg-mint-soft p-4"><ShieldCheck className="mt-0.5 size-5 shrink-0 text-yuristim" /><p className="text-xs leading-5 text-muted">Phase 1’da profil mock ma’lumot bilan ishlaydi. Real Telegram auth yoki backend mavjud emas.</p></div></PageContainer></>; }

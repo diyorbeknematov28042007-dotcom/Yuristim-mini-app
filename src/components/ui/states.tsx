@@ -1,0 +1,5 @@
+import { AlertCircle, Inbox } from "lucide-react";
+import { cn } from "@/lib/utils/cn";
+export function EmptyState({ title, body, className }: { title: string; body: string; className?: string }) { return <div className={cn("rounded-[18px] border border-dashed border-border bg-white px-5 py-8 text-center", className)}><div className="mx-auto mb-3 flex size-11 items-center justify-center rounded-full bg-mint-soft text-yuristim"><Inbox className="size-5" aria-hidden="true" /></div><h3 className="text-sm font-bold text-ink">{title}</h3><p className="mx-auto mt-1 max-w-[30ch] text-sm leading-6 text-muted">{body}</p></div>; }
+export function ErrorState({ message = "Something went wrong." }: { message?: string }) { return <div className="flex items-start gap-3 rounded-[16px] border border-red-100 bg-red-50 p-4 text-sm text-red-800"><AlertCircle className="mt-0.5 size-5 shrink-0" aria-hidden="true" /><span>{message}</span></div>; }
+export function SkeletonBlock({ className }: { className?: string }) { return <div className={cn("h-20 animate-pulse rounded-[16px] bg-[#EAF0ED]", className)} aria-hidden="true" />; }
