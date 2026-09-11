@@ -2,15 +2,19 @@
 
 import { useEffect } from "react";
 
-export function useTelegramBackButton(onBack: () => void, visible = true) {
+export function useTelegramBackButton(enabled: boolean, onBack: () => void) {
   useEffect(() => {
     const backButton = window.Telegram?.WebApp?.BackButton;
-    if (!backButton || !visible) return;
+    if (!backButton) return;
+    if (!enabled) {
+      backButton.hide();
+      return;
+    }
     backButton.show();
     backButton.onClick(onBack);
     return () => {
       backButton.offClick(onBack);
       backButton.hide();
     };
-  }, [onBack, visible]);
+  }, [enabled, onBack]);
 }

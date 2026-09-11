@@ -1,8 +1,37 @@
-import type { DocumentSummary, Lawyer, User } from "@/types/domain";
-export interface UserService { getCurrent(): Promise<User>; }
-export interface CreditsService { getBalance(): Promise<number>; }
-export interface AiService { getAvailability(): Promise<{ enabled: boolean }>; }
-export interface LawyerService { list(): Promise<Lawyer[]>; }
-export interface DocumentService { list(): Promise<DocumentSummary[]>; }
-export interface MarketplaceService { getActiveRequestCount(): Promise<number>; }
-export interface NotificationService { getUnreadCount(): Promise<number>; }
+import type {
+  AccessVerificationResult,
+  ChatHistoryItem,
+  DocumentSummary,
+  PricingPlan,
+  SuggestedPrompt,
+  UsageSummary,
+  User,
+} from "@/types/domain";
+
+export interface AuthEntryService {
+  verifyAccessCode(code: string): Promise<AccessVerificationResult>;
+}
+
+export interface ChatService {
+  getSuggestedPrompts(): Promise<SuggestedPrompt[]>;
+}
+
+export interface DocumentService {
+  list(): Promise<DocumentSummary[]>;
+}
+
+export interface HistoryService {
+  list(): Promise<ChatHistoryItem[]>;
+}
+
+export interface ProfileService {
+  getCurrent(): Promise<User>;
+}
+
+export interface UsageService {
+  getSummary(): Promise<UsageSummary>;
+}
+
+export interface PricingService {
+  listPlans(): Promise<PricingPlan[]>;
+}

@@ -19,11 +19,12 @@ export function TelegramProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     window.Telegram?.WebApp?.ready?.();
     window.Telegram?.WebApp?.expand?.();
-
     const frame = window.requestAnimationFrame(() => {
-      setEnvironment(readTelegramEnvironment());
+      const nextEnvironment = readTelegramEnvironment();
+      document.documentElement.dataset.telegram = nextEnvironment.isTelegram ? "true" : "false";
+      document.documentElement.dataset.telegramTheme = nextEnvironment.colorScheme;
+      setEnvironment(nextEnvironment);
     });
-
     return () => window.cancelAnimationFrame(frame);
   }, []);
 

@@ -2,7 +2,7 @@ name: Frontend Quality
 
 on:
   push:
-    branches: [main]
+    branches: [main, miniapp-dev]
   pull_request:
 
 permissions:
