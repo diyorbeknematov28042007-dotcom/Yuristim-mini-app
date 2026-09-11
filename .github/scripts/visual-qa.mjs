@@ -23,6 +23,7 @@ const browser = await chromium.launch({
 
 const viewports = [320, 390, 430];
 const report = [];
+const motionSettleMs = 280;
 
 async function assertNoHorizontalOverflow(page, label) {
   const metrics = await page.evaluate(() => ({
@@ -34,6 +35,12 @@ async function assertNoHorizontalOverflow(page, label) {
     throw new Error(`${label}: horizontal overflow detected ${JSON.stringify(metrics)}`);
   }
   return metrics;
+}
+
+async function closeVisibleSheet(page) {
+  const dialog = page.locator('[role="dialog"]:visible');
+  await dialog.getByRole("button", { name: "Close sheet", exact: true }).click();
+  await page.waitForTimeout(motionSettleMs);
 }
 
 for (const width of viewports) {
@@ -70,19 +77,23 @@ for (const width of viewports) {
     await page.getByRole("button", { name: "Menu", exact: true }).click();
     await page.getByText("Chatlar tarixi", { exact: true }).waitFor({ state: "visible" });
     await page.getByRole("button", { name: "Yangi chat", exact: true }).waitFor({ state: "visible" });
+    await page.waitForTimeout(motionSettleMs);
     await assertNoHorizontalOverflow(page, "390px drawer");
     await page.screenshot({ path: path.join(outputDir, "390-drawer.png"), fullPage: true });
     await page.getByRole("button", { name: "Yopish", exact: true }).click();
+    await page.waitForTimeout(motionSettleMs);
 
     await page.getByRole("button", { name: "Tezkor", exact: true }).click();
     await page.getByText("Javob rejimi", { exact: true }).waitFor({ state: "visible" });
+    await page.waitForTimeout(motionSettleMs);
     await page.screenshot({ path: path.join(outputDir, "390-model-sheet.png"), fullPage: true });
-    await page.getByLabel("Close sheet", { exact: true }).click();
+    await closeVisibleSheet(page);
 
     await page.getByRole("button", { name: "Biriktirish", exact: true }).click();
     await page.getByText("Fayl yuklash", { exact: true }).waitFor({ state: "visible" });
+    await page.waitForTimeout(motionSettleMs);
     await page.screenshot({ path: path.join(outputDir, "390-attachment-sheet.png"), fullPage: true });
-    await page.getByLabel("Close sheet", { exact: true }).click();
+    await closeVisibleSheet(page);
   }
 
   report.push({ width, authMetrics, shellMetrics, status: "pass" });
